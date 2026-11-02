@@ -1,0 +1,20 @@
+# File 1 of 2: copy to .github/workflows/doppeldiff.yml
+# Runs the pull request's code in a sandbox. No secrets and a read-only token: safe for pull requests from forks.
+name: doppeldiff
+
+on:
+  pull_request:
+
+permissions: {}
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: 7suheel/doppeldiff@v0.1.0

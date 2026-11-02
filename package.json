@@ -1,0 +1,16 @@
+{
+  "name": "doppeldiff-playground",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A small TypeScript library to try doppeldiff on pull requests.",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}
