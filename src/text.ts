@@ -1,18 +1,12 @@
 /** Shorten text to at most `max` characters, ending with "…" when it was cut. */
-export function truncate(text: string, max: number): string {
-  if (text.length <= max) {
-    return text;
-  }
-  return text.slice(0, Math.max(max - 1, 0)) + '…';
-}
+export const truncate = (text: string, max: number): string =>
+  text.length > max ? `${text.slice(0, max)}…` : text;
 
 /** Initials of a name: "Ada Lovelace" -> "AL". */
-export function initials(name: string): string {
-  let result = '';
-  for (const word of name.trim().split(/\s+/)) {
-    if (word.length > 0) {
-      result += word[0]!.toUpperCase();
-    }
-  }
-  return result;
-}
+export const initials = (name: string): string =>
+  name
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word[0]!.toUpperCase())
+    .join('');
