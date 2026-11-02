@@ -1,33 +1,27 @@
 /** Amounts are integer cents. */
 
-/** Split a bill into `people` shares that add up exactly to the total; the first shares get the leftover cents. */
-export function splitBill(totalCents: number, people: number): number[] {
+const assertPeople = (people: number): void => {
   if (!Number.isInteger(people) || people <= 0) {
     throw new RangeError('people must be a positive integer');
   }
-  const base = Math.floor(totalCents / people);
-  const remainder = totalCents - base * people;
-  const shares: number[] = [];
-  for (let i = 0; i < people; i++) {
-    shares.push(i < remainder ? base + 1 : base);
-  }
-  return shares;
-}
+};
+
+/** Split a bill into `people` equal shares. */
+export const splitBill = (totalCents: number, people: number): number[] => {
+  assertPeople(people);
+  return Array.from({ length: people }, () => Math.round(totalCents / people));
+};
 
 /** Format cents as US dollars: 1234 -> "$12.34", -500 -> "-$5.00". */
-export function formatCents(cents: number): string {
-  const sign = cents < 0 ? '-' : '';
+export const formatCents = (cents: number): string => {
   const abs = Math.abs(cents);
-  const dollars = Math.floor(abs / 100);
-  const rest = abs % 100;
-  return sign + '$' + dollars.toLocaleString('en-US') + '.' + String(rest).padStart(2, '0');
-}
+  const dollars = Math.floor(abs / 100).toLocaleString('en-US');
+  const rest = String(abs % 100).padStart(2, '0');
+  return `${cents < 0 ? '-' : ''}$${dollars}.${rest}`;
+};
 
 /** Apply a percentage discount, rounding the discount (not the price) to whole cents. */
-export function applyDiscount(cents: number, percent: number): number {
-  if (percent < 0 || percent > 100) {
-    throw new RangeError('percent must be between 0 and 100');
-  }
-  const discount = Math.round((cents * percent) / 100);
-  return cents - discount;
-}
+export const applyDiscount = (cents: number, percent: number): number => {
+  if (percent < 0 || percent > 100) throw new RangeError('percent must be between 0 and 100');
+  return cents - Math.round((cents * percent) / 100);
+};
